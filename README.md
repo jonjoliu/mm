@@ -1,4 +1,4 @@
-# Jonjo Study Desk
+# Master of Management Review
 
 Personal study site for UBC Sauder 2026W1 — https://jonjo.cc
 
