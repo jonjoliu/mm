@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}img{max-width:100%}</style>
+<title>CRWR 209 Fiction Review</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Mono:wght@500&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<style>
+/* Layout: lecture rail (left, desktop) / chip row (phone) + one reading column; three views per lecture: notes · terms · flashcards */
+:root{
+  --bg:#f3f5f8; --panel:#ffffff; --ink:#13213a; --fg:#1d2433; --muted:#667085; --line:#e0e5ec;
+  --term:#c2006b; --accent:#13213a; --green:#3f8a22; --green-bg:#eef7e6; --green-line:#d3e8c1;
+  --hot:#c0392b; --tbg:#f9d4d0; --kbg:#d3e3fb; --blue:#1f5fa8; --blue-bg:#f1f6fd; --th:#e9edf4; --zebra:#f8f9fb;
+  --chip:#e8ecf3; --gold:#a77800; --gold-bg:#fbf1d3;
+  --display:"Archivo","Noto Sans SC",system-ui,sans-serif;
+  --body:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e131d; --panel:#161d2b; --ink:#e7ebf3; --fg:#d9dee8; --muted:#97a1b4; --line:#273044;
+  --term:#ff5aaa; --accent:#9db7ea; --green:#86c766; --green-bg:#18261a; --green-line:#2b4426;
+  --hot:#ff7b6b; --tbg:#4a2328; --kbg:#1f3456; --blue:#8db8ee; --blue-bg:#152236; --th:#1f2839; --zebra:#1a2231;
+  --chip:#222b3c; --gold:#e6bb4a; --gold-bg:#3a3018; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e131d; --panel:#161d2b; --ink:#e7ebf3; --fg:#d9dee8; --muted:#97a1b4; --line:#273044;
+  --term:#ff5aaa; --accent:#9db7ea; --green:#86c766; --green-bg:#18261a; --green-line:#2b4426;
+  --hot:#ff7b6b; --tbg:#4a2328; --kbg:#1f3456; --blue:#8db8ee; --blue-bg:#152236; --th:#1f2839; --zebra:#1a2231;
+  --chip:#222b3c; --gold:#e6bb4a; --gold-bg:#3a3018; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15.5px;line-height:1.7;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--term);outline-offset:2px;border-radius:4px}
+
+.shell{display:grid;grid-template-columns:250px minmax(0,1fr);max-width:1180px;margin:0 auto;gap:36px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 60px}
+.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 24px);align-self:start}
+.brand{font-family:var(--display);font-weight:800;font-size:22px;color:var(--ink);letter-spacing:-.01em;line-height:1.15}
+.brand small{display:block;font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin-top:6px}
+.lessons{list-style:none;margin:22px 0 0;padding:0;display:flex;flex-direction:column;gap:2px}
+.lessons button{width:100%;display:grid;grid-template-columns:38px 1fr;align-items:baseline;gap:4px;text-align:left;border:0;background:none;padding:8px 10px;border-radius:8px;cursor:pointer}
+.lessons button:hover{background:var(--chip)}
+.lessons .no{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.lessons .nm{font-size:14px;line-height:1.35;color:var(--fg)}
+.lessons .nm em{display:block;font-style:normal;font-size:12px;color:var(--muted)}
+.lessons button[aria-current="true"]{background:var(--panel);box-shadow:inset 3px 0 0 var(--term),0 1px 0 var(--line)}
+.lessons button[aria-current="true"] .no{color:var(--term)}
+.quiz-tag{margin:18px 10px 0;font-size:12px;color:var(--muted);line-height:1.5}
+.quiz-tag b{color:var(--fg)}
+
+main{min-width:0}
+.head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px;border-bottom:1px solid var(--line);padding-bottom:16px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--term);text-transform:uppercase}
+h1{font-family:var(--display);font-weight:800;color:var(--ink);font-size:clamp(26px,4vw,36px);line-height:1.12;margin:4px 0 2px;text-wrap:balance;letter-spacing:-.015em}
+.h1zh{color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:4px;background:var(--chip);padding:4px;border-radius:10px}
+.tabs button{border:0;background:none;padding:6px 14px;border-radius:7px;cursor:pointer;font-size:14px;color:var(--muted);white-space:nowrap}
+.tabs button[aria-selected="true"]{background:var(--panel);color:var(--ink);font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.tabs .ct{font-family:var(--mono);font-size:11px;margin-left:4px;opacity:.75}
+.view{padding-top:22px}
+
+/* ---------- notes ---------- */
+.notes{max-width:760px}
+.notes h2{font-family:var(--display);font-weight:800;font-size:21px;color:var(--ink);margin:34px 0 10px;line-height:1.3;text-wrap:balance;padding-top:14px;border-top:2px solid var(--ink)}
+.notes h2:first-child{margin-top:0}
+.notes h3,.notes h4{display:inline-block;font-size:15.5px;color:var(--ink);background:var(--green-bg);border-left:4px solid var(--green);padding:1px 10px;margin:18px 0 8px;border-radius:0 4px 4px 0;line-height:1.5}
+.notes p{margin:0 0 10px}
+.notes ul,.notes ol{margin:0 0 12px;padding-left:22px}
+.notes li{margin-bottom:3px}
+.notes b{font-weight:700;color:var(--ink)}
+.notes .t{background:var(--tbg);padding:0 4px;border-radius:3px}
+.notes .k{background:var(--kbg);padding:0 4px;border-radius:3px}
+.notes .hot{color:var(--hot);font-weight:700;font-size:13px;margin-left:6px;white-space:nowrap}
+.notes .hot::before{content:"⚠ "}
+.notes .sum{background:var(--green-bg);border:1px solid var(--green-line);border-radius:8px;padding:10px 14px;margin:12px 0 6px;font-size:14.5px}
+.notes .sum::before{content:"✎ Exam summary · ";font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--green);font-weight:500}
+.notes .formula{background:var(--th);border-radius:8px;text-align:center;font-weight:700;padding:10px;margin:8px 0 12px;color:var(--ink)}
+.notes .muted{color:var(--muted);font-size:14px}
+.notes .zh{color:var(--muted);font-size:.9em}
+.notes p.zh,.notes div.zh{background:var(--zebra);border-radius:6px;padding:6px 10px}
+.notes .bk{color:var(--blue);background:var(--blue-bg);border-radius:6px;padding:6px 10px}
+.notes .bk::before{content:"课本 ";font-family:var(--mono);font-size:11px;font-weight:500}
+.notes .bbox{color:var(--fg);border:1px solid var(--blue);border-radius:8px;padding:8px 12px;margin:10px 0;background:var(--blue-bg)}
+.notes .bbox b{color:var(--blue)}
+.notes .src{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--blue);border:1px solid currentColor;padding:0 5px;border-radius:4px;vertical-align:3px;white-space:nowrap}
+.notes .trap{color:var(--hot)}
+.notes .ans{color:var(--green);font-weight:700}
+.tw{overflow-x:auto;margin:6px 0 14px;border:1px solid var(--line);border-radius:8px}
+.notes table{border-collapse:collapse;width:100%;font-size:14px;min-width:460px;background:var(--panel)}
+.notes th{background:var(--th);text-align:left;font-weight:700;color:var(--ink);padding:7px 10px;border-bottom:1px solid var(--line)}
+.notes td{padding:7px 10px;border-top:1px solid var(--line);vertical-align:top}
+.notes tr:nth-child(even) td{background:var(--zebra)}
+.notes td.h{font-weight:700;color:var(--ink);white-space:nowrap}
+.notes .grid2{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin:8px 0 12px;font-size:14px}
+.notes .grid2 div{padding:8px 12px;border:1px solid var(--line);min-width:0}
+.notes .grid2 .lab{font-weight:700;color:var(--ink);border:0;padding:0}
+/* L06 figures */
+.tkifig{display:grid;grid-template-columns:22px 1fr;gap:4px;max-width:520px;margin:10px auto 14px}
+.tkifig .yax{writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.tkifig .xax{text-align:center;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.quad{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.cell{border-radius:8px;padding:10px 12px;min-height:84px;display:flex;flex-direction:column;font-size:13px;background:var(--th)}
+.cell b{font-size:15px;color:var(--ink)}
+.cell.r{background:var(--tbg)} .cell.r b{color:var(--hot)}
+.cell.g{background:var(--green-bg)} .cell.g b{color:var(--green)}
+.ctr{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--panel);border:1.5px solid var(--gold);border-radius:999px;padding:4px 12px;text-align:center;font-size:12.5px;white-space:nowrap;line-height:1.35}
+.ctr b{color:var(--gold)}
+.zfig{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px 22px;margin:8px 0 6px}
+.zfig svg{display:block;font-family:var(--mono)}
+.zfig svg text[fill="#13213a"],.zfig svg text:not([fill]){fill:var(--fg)}
+.zfig svg line[stroke="#333"]{stroke:var(--fg)}
+.zfig svg text[fill="#8a5a00"]{fill:var(--gold)}
+.zfig svg rect[fill="#f2b134"]{fill:var(--gold)}
+.zfig + p{font-size:13px!important}
+
+/* ---------- terms ---------- */
+.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.search{flex:1 1 240px;min-width:0;border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:9px 12px;font:inherit;font-size:15px;color:var(--fg)}
+.count{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.gl{list-style:none;margin:0;padding:0;max-width:880px}
+.gl li{display:grid;grid-template-columns:minmax(0,36%) minmax(0,1fr);gap:4px 22px;padding:10px 0;border-bottom:1px solid var(--line)}
+.gl .gt{color:var(--term);font-weight:700;line-height:1.35}
+.gl .gz{display:block;color:var(--muted);font-size:13px;line-height:1.45;margin-top:2px}
+.gl .ge{line-height:1.55}
+.gl mark{background:var(--gold-bg);color:inherit;border-radius:2px}
+.gl .lsn{font-family:var(--mono);font-size:11px;color:var(--muted);margin-right:6px}
+.empty{color:var(--muted);padding:20px 0}
+
+/* ---------- flashcards ---------- */
+.fc-wrap{max-width:640px}
+.seg{display:inline-flex;gap:2px;background:var(--chip);padding:3px;border-radius:9px;flex-wrap:wrap}
+.seg button{border:0;background:none;padding:5px 11px;border-radius:7px;font-size:13px;cursor:pointer;color:var(--muted);white-space:nowrap}
+.seg button[aria-pressed="true"]{background:var(--panel);color:var(--ink);font-weight:700}
+.chk{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);cursor:pointer}
+.card{position:relative;margin:14px 0 12px;perspective:1400px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.card-in{position:relative;display:grid;transition:transform .45s cubic-bezier(.3,.7,.3,1);transform-style:preserve-3d}
+.card.flip .card-in{transform:rotateY(180deg)}
+.face{grid-area:1/1;min-height:300px;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px 28px;display:flex;flex-direction:column;justify-content:center;gap:10px;box-shadow:0 1px 0 var(--line),0 10px 28px -18px rgba(19,33,58,.35)}
+.face.back{transform:rotateY(180deg)}
+.face .corner{position:absolute;top:14px;left:18px;right:18px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.06em}
+.face .big{font-family:var(--display);font-weight:800;font-size:clamp(24px,5vw,34px);color:var(--term);line-height:1.15;text-wrap:balance;text-align:center}
+.face .zhbig{font-size:18px;color:var(--muted);text-align:center}
+.face .def{font-size:17px;line-height:1.6;color:var(--fg);text-align:center;text-wrap:pretty}
+.face .hint{position:absolute;bottom:12px;left:0;right:0;text-align:center;font-size:12px;color:var(--muted)}
+.face .known{color:var(--green)}
+@media (prefers-reduced-motion: reduce){.card-in{transition:none}}
+.fc-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:9px 16px;cursor:pointer;font-size:14.5px}
+.btn:hover{border-color:var(--muted)}
+.btn.no{color:var(--hot)} .btn.yes{color:var(--green)}
+.btn.ghost{background:none}
+.prog{height:4px;background:var(--chip);border-radius:9px;overflow:hidden;margin-top:14px}
+.prog i{display:block;height:100%;background:var(--term);width:0;transition:width .25s}
+.fc-meta{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:6px}
+.keys{font-size:12px;color:var(--muted);margin-top:14px}
+kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 5px;background:var(--panel)}
+.done{text-align:center;padding:40px 10px}
+.done b{font-family:var(--display);font-size:24px;color:var(--ink);display:block;margin-bottom:6px}
+
+.home{display:inline-block;font-family:var(--mono);font-size:12px;color:var(--muted);text-decoration:none;margin-bottom:10px}
+.home:hover{color:var(--term)}
+.quiz-tag em{font-style:normal;color:var(--term)}
+.notes .je{font-family:var(--mono);font-size:13.5px;background:var(--zebra);border:1px solid var(--line);border-radius:8px;padding:8px 14px;margin:6px 0 14px;max-width:520px}
+.notes .je div{display:grid;grid-template-columns:30px 1fr auto;gap:8px}
+.notes .je div.cr{padding-left:26px}
+.notes .je span{color:var(--muted)}
+.notes .je em{font-style:normal;font-variant-numeric:tabular-nums;text-align:right}
+.notes .je p{margin:2px 0 6px;color:var(--muted);font-size:12px;font-family:var(--body)}
+/* ---------- phone ---------- */
+@media (max-width:860px){
+  .shell{grid-template-columns:minmax(0,1fr);gap:0;padding-block:14px 48px}
+  .rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px))) 0;padding:8px max(16px,env(safe-area-inset-left,0px)) 10px;border-bottom:1px solid var(--line)}
+  .brand{font-size:17px}.brand small{display:none}
+  .lessons{flex-direction:row;overflow-x:auto;margin-top:8px;gap:6px;scrollbar-width:none}
+  .lessons::-webkit-scrollbar{display:none}
+  .lessons button{display:block;width:auto;background:var(--chip);padding:5px 11px;border-radius:999px;white-space:nowrap}
+  .lessons .nm{display:none}
+  .lessons .no{color:var(--fg);font-size:13px}
+  .lessons button[aria-current="true"]{background:var(--ink);box-shadow:none}
+  .lessons button[aria-current="true"] .no{color:var(--bg)}
+  .quiz-tag{display:none}
+  .home{margin-bottom:4px}
+  .head{padding-top:14px}
+  .gl li{grid-template-columns:minmax(0,1fr)}
+  .face{min-height:260px;padding:26px 18px}
+}
+</style>
+
+</head>
+<body>
+<div class="shell">
+  <nav class="rail" aria-label="Lectures">
+    <a class="home" href="../">← 所有课程</a>
+    <div class="brand" id="brand"></div>
+    <ul class="lessons" id="lessons"></ul>
+    <p class="quiz-tag" id="examtag"></p>
+  </nav>
+  <main>
+    <div class="head">
+      <div><div class="eyebrow" id="eyebrow"></div><h1 id="title"></h1><div class="h1zh" id="titlezh"></div></div>
+      <div class="tabs" role="tablist" id="tabs">
+        <button role="tab" data-v="notes">笔记</button>
+        <button role="tab" data-v="terms">关键词<span class="ct" id="ct"></span></button>
+        <button role="tab" data-v="cards">闪卡</button>
+      </div>
+    </div>
+    <section class="view" id="view"></section>
+  </main>
+</div>
+
+<script id="data" type="application/json">{"code": "CRWR 209", "short": "CW", "sub": "Creative Writing · Fiction", "key": "crwr209", "prefix": "L", "unitWord": "", "unitZh": "课", "start": 8, "exams": [{"id": "s3", "label": "Story 3", "units": [8], "note": "Review: Nov 17"}], "units": [{"n": 8, "en": "Talk to Me: Dialogue", "zh": "对话写作", "tag": "W7 · Nov 3", "notes": "<p class=\"muted\">本课 = Week 7 模块 + Nov 3 课堂（Talk to Me: Dialogue）。Story 3 review：Nov 17 课上。<\/p>\n\n<h2>1. 对话是用来干什么的？<span class=\"hot\">高频考点<\/span><\/h2>\n<p>一句话：<span class=\"t\">Dialogue is the music of character<\/span>（对话是人物的音乐），也是好场景的主力。日常说话充满寒暄和废话，小说里的对话必须<b>有目的<\/b>。而且对话透露的，总比人物本想透露的<b>更多<\/b>。<\/p>\n<h3>六项功能（W7 模块）<\/h3>\n<ol>\n<li><b>Dramatize conflict<\/b>：把冲突戏剧化。不同人物想要不同的东西<\/li>\n<li><b>Reveal inner workings through subtext<\/b>：通过潜台词揭示内心<\/li>\n<li><b>Let us \"hear\" characters<\/b>：让读者\"听见\"人物<\/li>\n<li><b>Show origins, background, status, intellect<\/b>：透露出身、背景、地位、学识<\/li>\n<li><b>Illustrate relationships<\/b>：呈现人物关系和权力关系<\/li>\n<li><b>Enhance atmosphere, texture, pacing<\/b>：增强氛围、质感和节奏<\/li>\n<\/ol>\n<div class=\"formula\">Every line of dialogue should do 2+ of these jobs.<\/div>\n<p class=\"muted\">课堂版（Nov 3）是四项：打断大段叙述、制造强调、展现人物、推动故事（戏剧化冲突、加张力）。好对话至少做到其中两项。<\/p>\n<h3>怎么用对话显示人物（自己记的例子）<\/h3>\n<div class=\"tw\"><table>\n<tr><th>想显示<\/th><th>说法 A<\/th><th>说法 B<\/th><\/tr>\n<tr><td class=\"h\">背景、学识<\/td><td>\"Nice shirt.\"<\/td><td>\"That shirt is absolutely marvelous.\"<\/td><\/tr>\n<tr><td class=\"h\">和老板的关系<\/td><td>\"I'm taking the day off.\"（平等、有底气）<\/td><td>\"Would it be OK if I took the day off?\"（地位低、小心）<\/td><\/tr>\n<tr><td class=\"h\">氛围<\/td><td>吵闹酒吧：大喊、听岔、只说半句<\/td><td>会议室外：简短、生硬<\/td><\/tr>\n<\/table><\/div>\n<div class=\"sum\">Dialogue dramatizes conflict, reveals character through subtext and voice, shows relationships and power, and controls pacing and mood. Every line should do at least two jobs.<\/div>\n\n<h2>2. 三种对话类型<span class=\"hot\">高频考点<\/span><\/h2>\n<div class=\"tw\"><table>\n<tr><th><\/th><th>Direct dialogue（直接）<\/th><th>Indirect dialogue（间接）<\/th><th>Summary dialogue（概括）<\/th><\/tr>\n<tr><td class=\"h\">样子<\/td><td>有引号，实时呈现<\/td><td>没有引号，用叙述<b>转述<\/b>内容，但还听得出说话人的语气<\/td><td>只说\"他们谈过了\"，<b>不<\/b>写具体内容<\/td><\/tr>\n<tr><td class=\"h\">例子（自编）<\/td><td>\"I'm not going,\" she said.<\/td><td>She wasn't going, she told him. Not this year, not with her mother sick.<\/td><td>They argued about the trip for most of the week.<\/td><\/tr>\n<tr><td class=\"h\">什么时候用<\/td><td><b>关键时刻<\/b>：放慢节奏、加强重点、让读者\"在场\"；对话会导向冲突、决定、结果<\/td><td>保留人物声音又不用写成整场戏；带过不太重要的信息；处理 backstory；场景之间喘口气<\/td><td>压缩大量谈话；快速进入场景核心；处理 backstory<\/td><\/tr>\n<\/table><\/div>\n<p><b>用 indirect / summary 的典型情况：<\/b>人物要告诉另一个人<b>读者已经知道<\/b>的事；或者这段谈话的情绪重点恰恰是它<b>很无聊<\/b>。<\/p>\n<p class=\"muted\">课上例文：直接对话 = Sally Rooney《Normal People》车里道歉那段；间接对话 = Tobias Wolff \"Smokers\"（话痨乘客，转述同时暴露了叙述者对他的看法）；概括对话 = Joan Wickersham \"Commuter Marriage\"。Aimee Bender \"The Rememberer\" 三种都用了。<\/p>\n\n<h2>3. 潜台词（Subtext）<span class=\"hot\">高频考点<\/span><\/h2>\n<p><span class=\"t\">Subtext<\/span> 之于文本，就像<b>暗流<\/b>之于水面：场景里存在、但没被说出来的一切。人们很少直说真实意思，而是用对话去试探、操纵、影响、引诱或防御。<\/p>\n<h3>人物意识的三个层次<\/h3>\n<div class=\"tw\"><table>\n<tr><th>Level<\/th><th>对应<\/th><th>是什么<\/th><\/tr>\n<tr><td class=\"h\">Spoken（说出口的）<\/td><td>对话的<b>文本<\/b><\/td><td>愿意公开说的话<\/td><\/tr>\n<tr><td class=\"h\">Unspoken（没说出口的）<\/td><td>对话的<b>潜台词<\/b><\/td><td>只跟亲近的人承认的想法、恐惧、欲望；会从话里<b>漏出来<\/b><\/td><\/tr>\n<tr><td class=\"h\">Unspeakable（说不出口的）<\/td><td>对话中<b>隐藏的真相<\/b><\/td><td>连对自己都很难承认的最深恐惧和动机<\/td><\/tr>\n<\/table><\/div>\n<div class=\"tw\"><table>\n<tr><th>Spoken<\/th><th>Unspoken<\/th><th>Unspeakable<\/th><\/tr>\n<tr><td>\"Do you want another drink?\"<\/td><td>\"Should you have another drink?\"<\/td><td>\"Maybe you've been drinking a lot lately.\"<\/td><\/tr>\n<tr><td>\"Fine, I'll go to the party.\"<\/td><td>我一点都不想去<\/td><td>—<\/td><\/tr>\n<tr><td>\"Who were you talking to?\"<\/td><td>I feel jealous and suspicious.<\/td><td>I fear that you'll leave me.<\/td><\/tr>\n<\/table><\/div>\n<p>同一个话题（夫妻争论该谁洗碗），潜台词可以完全不同：家务分工 / 回避另一场更大的争吵 / 调情。<b>潜台词决定了文本的语言、语气和措辞。<\/b><\/p>\n<p class=\"muted\">例文：Ivan Coyote \"Open Sesame\"（邻居小女孩借麦克风架，表面轻松，底下是叙述者没说出口的顾虑）；Laurie Morris \"Community Life\"（问\"你在跟谁说话\"，底下是嫉妒和不安）；《傲慢与偏见》开篇：Bennet 太太几乎没有潜台词，Bennet 先生是潜台词高手。分析时问：<b>谁想要什么？水面上是什么，水面下是什么？<\/b><\/p>\n<div class=\"sum\">Subtext is what is present but unsaid. Spoken = the text, unspoken = the subtext, unspeakable = the hidden truth. The best dialogue carries all three levels; on-the-nose dialogue has none.<\/div>\n\n<h2>4. 常见错误<span class=\"hot\">易错点<\/span><\/h2>\n<div class=\"tw\"><table>\n<tr><th>错误<\/th><th>怎么改<\/th><\/tr>\n<tr><td class=\"h\">人物说对方<b>早就知道<\/b>的事（\"你还记得 Jim 吗？跟你结婚十年的那个\"）<\/td><td>相信读者能推断；删掉<\/td><\/tr>\n<tr><td class=\"h\">重复：动作已经展示过又用对话复述；同一句话说两遍<\/td><td>换措辞、换角度，或删掉<\/td><\/tr>\n<tr><td class=\"h\"><b>Exposition in disguise<\/b>：借对话向读者交代情节信息<\/td><td>这件事应该更早在场景里<b>展示<\/b>出来<\/td><\/tr>\n<tr><td class=\"h\"><b>Leading dialogue<\/b>：A 只是不停问\"然后呢？\"来提示 B<\/td><td><b>测试：把 A 的台词全划掉，意思没少？那就删。<\/b>让 B 直接说，给 A 一个目的<\/td><\/tr>\n<tr><td class=\"h\">所有人物听起来都一样；用词和年龄、语言能力不符<\/td><td>靠用词、句子长短、句式区分声音<\/td><\/tr>\n<tr><td class=\"h\"><b>On-the-nose<\/b>：人物把感受全说出来（\"我感到很受伤\"）→ 像肥皂剧<\/td><td>加潜台词：绕着说<\/td><\/tr>\n<tr><td class=\"h\">寒暄、结巴、说一半重来、填充词<\/td><td>真实说话要听，但写的时候删掉<\/td><\/tr>\n<tr><td class=\"h\">方言用撇号、按发音拼写，难读<\/td><td>用<b>用词和句子结构<\/b>表现口音（George Saunders \"Bohemians\"）<\/td><\/tr>\n<tr><td class=\"h\">太长、格式不清楚<\/td><td>剪短；按格式规则排<\/td><\/tr>\n<\/table><\/div>\n<p class=\"muted\">Review 3 里标的 #1 错误：<b>no subtext<\/b>。<\/p>\n\n<h2>5. 格式规则<span class=\"hot\">高频考点<\/span><\/h2>\n<p>格式只有一个目的：<b>让读者清楚是谁在说话<\/b>。<\/p>\n<h3>必须记住的三条<\/h3>\n<ol>\n<li>同一个人物的<b>动作和台词放在一起<\/b>（同一段）<\/li>\n<li>只在必要时标明说话人；能删的对话标签尽量删<\/li>\n<li>标明说话人时只用 <b>\"said\"<\/b>：不用 whined、snapped 等别的动词，也不加<b>副词<\/b>（said nastily ✗）<\/li>\n<\/ol>\n<h3>其他要点<\/h3>\n<ul>\n<li><b>换人说话 = 另起一段<\/b>（缩进）。动作或台词换到另一个人，也另起一段<\/li>\n<li>两人对话时，每隔几行标一次就够<\/li>\n<li>能用动作表明是谁在说，就不用标签：<br>\"Nice to meet you,\" he said. He shook her hand. → <b>\"Nice to meet you.\" He shook her hand.<\/b><\/li>\n<li>不要 said + -ing（暗示同时进行和因果）：<br>\"…,\" he said, drying the dog. → <b>\"…\" He dried the dog.<\/b><\/li>\n<li>对话后别再解释情绪（\"This angered me.\" ✗）<\/li>\n<\/ul>\n<h3>标点<\/h3>\n<div class=\"tw\"><table>\n<tr><th>情况<\/th><th>写法<\/th><\/tr>\n<tr><td class=\"h\">台词 + 标签（一个句子）<\/td><td>\"I left the dog at the store,\" she said.<br>逗号在引号内，标签小写，句号结尾<\/td><\/tr>\n<tr><td class=\"h\">问句 / 感叹<\/td><td>\"Did you leave the dog?\" he asked.<br>问号后标签仍小写（asked 其实多余）<\/td><\/tr>\n<tr><td class=\"h\">没有标签，用动作<\/td><td>\"You left the dog at the store.\" He shook his head. \"That's just like you.\"<br>台词自成一句，动作句首字母大写<\/td><\/tr>\n<\/table><\/div>\n<h3>四种排版风格<\/h3>\n<div class=\"tw\"><table>\n<tr><th>风格<\/th><th>效果<\/th><th>例<\/th><\/tr>\n<tr><td class=\"h\">Quotation marks 引号<\/td><td>像<b>外放音箱<\/b>：说话人清楚；说的和想的可以矛盾 → 反讽<\/td><td>Esi Edugyan, <i>Half Blood Blues<\/i><\/td><\/tr>\n<tr><td class=\"h\">No quotation marks 无引号<\/td><td>像<b>耳机<\/b>：更私密，话和想法、内外界限变模糊；但容易分不清谁在说<\/td><td>雨中帐篷布道片段<\/td><\/tr>\n<tr><td class=\"h\">Screenplay / theatre 剧本体<\/td><td>极简又高度风格化；不需要副词和动作；像布莱希特的<b>间离效果<\/b>，拆掉\"第四堵墙\"<\/td><td>Michael Winter, <i>This All Happened<\/i><\/td><\/tr>\n<tr><td class=\"h\">Em-dash 破折号 —<\/td><td>欧洲惯例；直接、有力、快，适合幽默；清晰度介于有引号和无引号之间<\/td><td>Schofield, <i>Malarky<\/i><\/td><\/tr>\n<\/table><\/div>\n<div class=\"sum\">Keep one character's action and words together, start a new paragraph for each new speaker, tag only when needed, and use only \"said\" with no adverbs. An action beat can replace a tag.<\/div>\n\n<h2>6. Story 3 怎么写（对话场景）<\/h2>\n<div class=\"formula\">Want vs. Want → Said / Unsaid / Unspeakable → Pressure ↑ → Turning Line → Decision<\/div>\n<p>两个人想要不同的东西 → 他们不直说真实意思 → 压力一句句升高 → 一句话击中要害 → 有人做了决定，事情变了。Story 2 的公式（信念变化 + 三拍场景）照样成立，Story 3 是让<b>对话<\/b>来推动这个变化。<\/p>\n<ol>\n<li><b>开头<\/b>：跳过寒暄，直接进入冲突（start late）<\/li>\n<li><b>中间<\/b>：双方各有 want，轮流出招（讲道理、让对方内疚、讨价还价、回避），压力升高<\/li>\n<li><b>潜台词<\/b>：绕着说，不直接说感受<\/li>\n<li><b>转折<\/b>：一句说到痛处的话 → 决定<\/li>\n<li><b>结尾<\/b>：用一个动作或画面收住，不解释<\/li>\n<\/ol>\n<h3>Process notes 模板（6 条）<\/h3>\n<ol>\n<li><b>Conflict<\/b>：In the dialogue, ___ wants ___, but ___ wants ___.<\/li>\n<li><b>Subtext<\/b>：When ___ says, \"___,\" the real meaning is ___.<\/li>\n<li><b>Types of dialogue<\/b>：I used direct dialogue for ___ because it is the key moment. I used summary / indirect dialogue for ___ to move faster.<\/li>\n<li><b>Character voice<\/b>：___ speaks in ___ sentences, which shows ___. ___ speaks ___, which shows ___.<\/li>\n<li><b>Formatting<\/b>：I started a new paragraph for each speaker. I used \"said\" or an action instead of other tags and adverbs.<\/li>\n<li><b>Change<\/b>：At first, ___ believes ___. At the end, ___. The line \"___\" shows this change.<\/li>\n<\/ol>\n\n<h2>7. 课堂练习：订婚一周的情侣<\/h2>\n<p>一个想取消婚约，一个不想。动笔前先定：<b>POV<\/b>（决定结尾谁说服谁）、两人各自的 <b>want<\/b>、每人一句 <b>spoken / unspoken / unspeakable<\/b>、取消的理由（外地工作、发现隐瞒、家人反对、订婚宴上的小事）。<\/p>\n<div class=\"tw\"><table>\n<tr><th>Step<\/th><th>要求<\/th><th>要点<\/th><\/tr>\n<tr><td class=\"h\">1 纯对话<\/td><td>写一页，只有对话，不写描写、动作、心理；结尾一人说服另一人<\/td><td>没有标签，所以两人说话方式要不同（一个句子短、一个爱解释；一个爱问、一个爱躲）<\/td><\/tr>\n<tr><td class=\"h\">2 概括<\/td><td>同一场景，一句对话都不用<\/td><td>保留起因、关键那句话的意思、最后的决定。对比：summary 快，但读者\"不在场\"<\/td><\/tr>\n<tr><td class=\"h\">3 加料<\/td><td>回到 Step 1，加少量动作、描写、心理<\/td><td>对话仍是主角；用动作代替标签：\"I need more time.\" She twisted the ring.（转戒指 = 潜台词）；心理融入叙述，不写 \"she thought\"<\/td><\/tr>\n<\/table><\/div>\n<h3>写完自查<\/h3>\n<ul>\n<li>每句对话至少做到 2 件事？有没有 leading dialogue？<\/li>\n<li>有没有人说对方早就知道的事？有没有太直白的句子？<\/li>\n<li>两个人的声音听得出区别？至少一处说的和想的不一样？<\/li>\n<li>换人 = 换段？只用 said、删了副词？删了寒暄、结巴、方言拼写？<\/li>\n<li>结尾有没有变化：有人做了决定？<\/li>\n<\/ul>\n", "terms": [{"t": "Action beat", "z": "动作代替标签", "e": "An action next to the line shows who is speaking: \"Nice to meet you.\" He shook her hand."}, {"t": "Adverbs in tags", "z": "标签里的副词（避免）", "e": "E.g., \"said nastily\"; cut them and let the words show the tone."}, {"t": "Backstory", "z": "背景故事", "e": "Events from before the story; often handled with indirect or summary dialogue."}, {"t": "Character voice", "z": "人物声音", "e": "Word choice, sentence length and phrasing that show who a character is."}, {"t": "Dialect spelling", "z": "方言拼写（避免）", "e": "Apostrophes and phonetic spelling are hard to read; show voice through word choice and syntax."}, {"t": "Dialogue", "z": "对话：人物的音乐", "e": "The music of character and the workhorse of strong scenes; every line should do 2+ jobs."}, {"t": "Dialogue tag", "z": "对话标签", "e": "Words that name the speaker, such as \"she said\"; use sparingly and only \"said\"."}, {"t": "Direct dialogue", "z": "直接对话：有引号、实时", "e": "Speech shown in real time inside quotation marks; use for key moments, emphasis and slowing the pace."}, {"t": "Distancing effect", "z": "间离效果（布莱希特）", "e": "Brecht's Verfremdungseffekt: denies immersion and breaks the fourth wall."}, {"t": "Em-dash style", "z": "破折号格式", "e": "European convention; direct, fast, good for humour; halfway in clarity."}, {"t": "Exposition in disguise", "z": "伪装成对话的说明", "e": "Using dialogue to deliver plot information to the reader."}, {"t": "Filler", "z": "填充词、结巴（删掉）", "e": "Stammers, false starts and filler words from real speech; edit them out."}, {"t": "Indirect dialogue", "z": "间接对话：叙述转述", "e": "Speech reported through narration without quotation marks; keeps the voice and handles less important information or backstory."}, {"t": "Leading dialogue", "z": "引导式对话", "e": "Character A only prompts Character B; test: cross out A's lines and nothing is lost."}, {"t": "New speaker, new paragraph", "z": "换人说话就换段", "e": "Start a new indented paragraph whenever speech or action moves to another character."}, {"t": "No quotation marks style", "z": "无引号格式：耳机", "e": "More intimate; blurs speech and thought, but can confuse who is speaking."}, {"t": "On-the-nose dialogue", "z": "太直白的对话", "e": "Characters state every feeling directly, so it sounds like a soap opera."}, {"t": "Pacing", "z": "节奏", "e": "How fast the story moves; direct dialogue slows it, summary speeds it up."}, {"t": "Pleasantries", "z": "客套寒暄（删掉）", "e": "Everyday small talk such as hello and how are you; cut it and start late."}, {"t": "Power dynamics", "z": "权力关系", "e": "Who is above or below whom, shown by how characters speak to each other."}, {"t": "Process notes", "z": "创作说明", "e": "Six notes on conflict, subtext, dialogue types, voice, formatting and change."}, {"t": "Quotation marks style", "z": "引号格式：外放音箱", "e": "Speaker is clear; thought can contradict speech, creating irony."}, {"t": "Said", "z": "只用 said", "e": "The only tag to use; avoid whined, snapped, and similar verbs."}, {"t": "Said + -ing", "z": "said 加 -ing（避免）", "e": "Implies continuous, causal action; write a separate action sentence instead."}, {"t": "Screenplay style", "z": "剧本体格式", "e": "Minimal and stylized, like a script; creates a distancing effect."}, {"t": "Spoken", "z": "说出口的：对话的文本", "e": "What characters say and freely share in public."}, {"t": "Start late", "z": "晚点开场", "e": "Skip the greetings and enter the scene at the conflict."}, {"t": "Subtext", "z": "潜台词：水面下的暗流", "e": "Everything present in a scene but not said out loud."}, {"t": "Summary dialogue", "z": "概括对话：只说谈过了", "e": "Tells that a conversation happened without giving its words; condenses talk and gets to the core fast."}, {"t": "Turning line", "z": "转折台词", "e": "The one line that hits hard and leads to a decision."}, {"t": "Unspeakable", "z": "说不出口的：隐藏的真相", "e": "Deepest fears and motives a character can barely admit even to themselves."}, {"t": "Unspoken", "z": "没说出口的：潜台词", "e": "Private thoughts and feelings that leak out through what characters say."}]}]}</script>
+<script>
+const CFG=JSON.parse(document.getElementById('data').textContent);const D=CFG.units;const K=CFG.key;
+const $=s=>document.querySelector(s);
+const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let known=new Set(store.get(K+'-known',[]));
+const keyOf=(n,t)=>n+'|'+t;
+const pad=n=>CFG.prefix+String(n).padStart(2,'0');
+const examsOf=n=>CFG.exams.filter(x=>x.units.includes(n));
+const scopeUnits=(s,L)=>s==='lesson'?[L]:s==='all'?D:D.filter(l=>(CFG.exams.find(x=>x.id===s)||{units:[]}).units.includes(l.n));
+let cur=CFG.start, viewName='notes';
+$('#brand').innerHTML=`${CFG.code} · ${CFG.short}<small>${CFG.sub}</small>`;
+$('#examtag').innerHTML=CFG.exams.map(x=>`<b>${x.label}</b> = ${x.units.length?x.units.map(pad).join(', '):'—'}${x.note?` <em>${x.note}</em>`:''}`).join('<br>');
+
+// lecture list
+$('#lessons').innerHTML=D.map(l=>`<li><button data-n="${l.n}"><span class="no">${pad(l.n)}</span><span class="nm">${l.en}<em>${l.zh}</em></span></button></li>`).join('');
+$('#lessons').addEventListener('click',e=>{const b=e.target.closest('button');if(b)go(+b.dataset.n,viewName)});
+$('#tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(b)go(cur,b.dataset.v)});
+
+function go(n,v){location.hash=`l${n}`+(v==='notes'?'':'-'+v)}
+function route(){
+  const m=/^#l(\d+)(?:-(terms|cards))?$/.exec(location.hash);
+  if(m&&D.some(l=>l.n===+m[1])){cur=+m[1];viewName=m[2]||'notes'} else {const s=store.get(K+'-last',CFG.start);cur=D.some(l=>l.n===s)?s:CFG.start;viewName='notes'}
+  store.set(K+'-last',cur);render();
+}
+window.addEventListener('hashchange',()=>{route();window.scrollTo({top:0})});
+
+function render(){
+  const L=D.find(l=>l.n===cur);
+  document.querySelectorAll('#lessons button').forEach(b=>b.setAttribute('aria-current',+b.dataset.n===cur));
+  const act=document.querySelector(`#lessons button[data-n="${cur}"]`);act&&act.scrollIntoView({block:'nearest',inline:'center'});
+  $('#eyebrow').textContent=[`${CFG.unitWord} ${pad(cur)}`.trim(),L.tag,...examsOf(cur).map(x=>x.label)].filter(Boolean).join(' · ');
+  $('#title').textContent=L.en; $('#titlezh').textContent=L.zh; $('#ct').textContent=L.terms.length;
+  document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.v===viewName));
+  if(viewName==='notes') renderNotes(L); else if(viewName==='terms') renderTerms(L); else renderCards(L);
+}
+
+function renderNotes(L){
+  const v=$('#view'); v.innerHTML=`<article class="notes">${L.notes}</article>`;
+  v.querySelectorAll('.notes table').forEach(t=>{if(t.parentElement.classList.contains('tw')||t.classList.contains('je'))return;const w=document.createElement('div');w.className='tw';t.replaceWith(w);w.appendChild(t)});
+}
+
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+function hl(s,q){s=esc(s);if(!q)return s;const i=s.toLowerCase().indexOf(q.toLowerCase());return i<0?s:s.slice(0,i)+'<mark>'+s.slice(i,i+q.length)+'</mark>'+s.slice(i+q.length)}
+function renderTerms(L){
+  const v=$('#view');
+  v.innerHTML=`<div class="tools"><input class="search" id="q" type="search" placeholder="搜索关键词（英文或中文）" autocomplete="off"><label class="chk"><input type="checkbox" id="allq"> 搜全部 ${D.length} ${CFG.unitZh}</label><span class="count" id="n"></span></div><ul class="gl" id="gl"></ul>`;
+  const draw=()=>{
+    const q=$('#q').value.trim(), all=$('#allq').checked;
+    const src=(all?D:[L]).flatMap(l=>l.terms.map(t=>({...t,n:l.n})));
+    const rows=q?src.filter(t=>(t.t+' '+t.z+' '+t.e).toLowerCase().includes(q.toLowerCase())):src;
+    $('#n').textContent=`${rows.length} 个`;
+    $('#gl').innerHTML=rows.length?rows.map(t=>`<li><div><span class="gt">${all?`<span class="lsn">${pad(t.n)}</span>`:''}${hl(t.t,q)}</span><span class="gz">${hl(t.z,q)}</span></div><div class="ge">${hl(t.e,q)}</div></li>`).join(''):`<li class="empty">没有找到“${esc(q)}”。试试勾选“搜全部 ${D.length} ${CFG.unitZh}”。</li>`;
+  };
+  $('#q').addEventListener('input',draw);$('#allq').addEventListener('change',draw);draw();
+}
+
+// flashcards
+let fc={scope:'lesson',rev:false,onlyNew:false,deck:[],i:0,flip:false};
+function buildDeck(L){
+  const src=scopeUnits(fc.scope,L);
+  let deck=src.flatMap(l=>l.terms.map(t=>({...t,n:l.n})));
+  if(fc.onlyNew) deck=deck.filter(t=>!known.has(keyOf(t.n,t.t)));
+  fc.deck=deck; fc.i=0; fc.flip=false;
+}
+function renderCards(L){
+  buildDeck(L);
+  const v=$('#view');
+  v.innerHTML=`<div class="fc-wrap">
+   <div class="tools">
+    <div class="seg" id="scope">${[['lesson','本课'],...CFG.exams.filter(x=>x.units.length>1).map(x=>[x.id,x.label]),['all','全部']].map(([k,t])=>`<button data-s="${k}" aria-pressed="${fc.scope===k}">${t}</button>`).join('')}</div>
+    <label class="chk"><input type="checkbox" id="rev" ${fc.rev?'checked':''}> 反向（看释义猜词）</label>
+    <label class="chk"><input type="checkbox" id="onlyNew" ${fc.onlyNew?'checked':''}> 只看还不熟的</label>
+   </div>
+   <div id="cardbox"></div>
+   <p class="keys"><kbd>空格</kbd> 翻面 · <kbd>←</kbd><kbd>→</kbd> 上一张/下一张 · <kbd>1</kbd> 还不熟 · <kbd>2</kbd> 记住了</p>
+  </div>`;
+  $('#scope').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;fc.scope=b.dataset.s;renderCards(L)});
+  $('#rev').addEventListener('change',e=>{fc.rev=e.target.checked;fc.flip=false;drawCard()});
+  $('#onlyNew').addEventListener('change',e=>{fc.onlyNew=e.target.checked;renderCards(L)});
+  drawCard();
+}
+function drawCard(){
+  const box=$('#cardbox'); if(!box)return;
+  const N=fc.deck.length, kn=fc.deck.filter(t=>known.has(keyOf(t.n,t.t))).length;
+  if(!N){box.innerHTML=`<div class="done"><b>这一组都记住了</b>取消“只看还不熟的”，或换一个范围继续复习。<br><br><button class="btn" id="reset">清除这组的“记住了”标记</button></div>`;
+    $('#reset').onclick=()=>{const L=D.find(l=>l.n===cur);fc.onlyNew=false;
+      const src=scopeUnits(fc.scope,L);
+      src.forEach(l=>l.terms.forEach(t=>known.delete(keyOf(l.n,t.t))));store.set(K+'-known',[...known]);renderCards(L)};return}
+  if(fc.i>=N){box.innerHTML=`<div class="done"><b>这一轮看完了</b>${N} 张里记住了 ${kn} 张。<br><br><button class="btn" id="again">再来一轮</button> <button class="btn ghost" id="sh">打乱顺序再来</button></div>`;
+    $('#again').onclick=()=>{fc.i=0;fc.flip=false;drawCard()};$('#sh').onclick=()=>{shuffle();drawCard()};return}
+  const t=fc.deck[fc.i], isK=known.has(keyOf(t.n,t.t));
+  const termSide=`<div class="big">${esc(t.t)}</div>`;
+  const defSide=`<div class="zhbig">${esc(t.z)}</div><div class="def">${esc(t.e)}</div>`;
+  const corner=`<div class="corner"><span>${pad(t.n)}</span><span>${isK?'<span class="known">✓ 记住了</span>':''}</span></div>`;
+  box.innerHTML=`<div class="card${fc.flip?' flip':''}" id="card" role="button" tabindex="0" aria-label="翻面">
+    <div class="card-in">
+      <div class="face front">${corner}${fc.rev?defSide:termSide}<div class="hint">点卡片翻面</div></div>
+      <div class="face back">${corner}${fc.rev?termSide+defSide.replace('<div class="def">'+esc(t.e)+'</div>',''):termSide+defSide}</div>
+    </div></div>
+   <div class="fc-bar">
+    <button class="btn ghost" id="prev" ${fc.i===0?'disabled':''}>← 上一张</button>
+    <span style="display:flex;gap:8px"><button class="btn no" id="no">还不熟</button><button class="btn yes" id="yes">记住了</button></span>
+    <button class="btn ghost" id="shuf">打乱</button>
+   </div>
+   <div class="prog"><i style="width:${(fc.i/N*100).toFixed(1)}%"></i></div>
+   <div class="fc-meta"><span>${fc.i+1} / ${N}</span><span>记住 ${kn} / ${N}</span></div>`;
+  $('#card').onclick=flip; $('#card').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();flip()}};
+  $('#prev').onclick=()=>step(-1); $('#no').onclick=()=>mark(false); $('#yes').onclick=()=>mark(true);
+  $('#shuf').onclick=()=>{shuffle();drawCard()};
+}
+function flip(){fc.flip=!fc.flip;const c=$('#card');c&&c.classList.toggle('flip',fc.flip)}
+function step(d){fc.i=Math.max(0,fc.i+d);fc.flip=false;drawCard()}
+function mark(ok){const t=fc.deck[fc.i];if(!t)return;const k=keyOf(t.n,t.t);ok?known.add(k):known.delete(k);store.set(K+'-known',[...known]);step(1)}
+function shuffle(){for(let i=fc.deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[fc.deck[i],fc.deck[j]]=[fc.deck[j],fc.deck[i]]}fc.i=0;fc.flip=false}
+document.addEventListener('keydown',e=>{
+  if(viewName!=='cards'||e.target.matches('input,textarea'))return;
+  if(e.key===' '){e.preventDefault();flip()} else if(e.key==='ArrowRight')step(1); else if(e.key==='ArrowLeft')step(-1);
+  else if(e.key==='1')mark(false); else if(e.key==='2')mark(true);
+});
+route();
+</script>
+
+</body>
+</html>
