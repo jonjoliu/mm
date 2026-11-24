@@ -5,7 +5,7 @@ Personal study site for UBC Sauder 2026W1 — https://jonjo.cc
 | Course | Folder | Content |
 |---|---|---|
 | COMM 320 Financial Accounting | `comm320/` | Units 1–10 (Ch 1–11) |
-| COMM 321 Organizational Behaviour | `comm321/` | Lectures L01–L09 |
+| COMM 321 Organizational Behaviour | `comm321/` | Lectures L01–L10 |
 | CRWR 209 Creative Writing | `crwr209/` | Weeks 2–7 |
 
 Each course has 笔记 (notes in Chinese with English terms), 关键词 (searchable A–Z key terms) and 闪卡 (flashcards).
